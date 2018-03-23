@@ -23,7 +23,6 @@ class NestableCollection extends Collection
     public function __construct($items = [])
     {
         parent::__construct($items);
-        $this->parentColumn = 'parent_id';
         $this->total = count($items);
     }
 
@@ -32,13 +31,8 @@ class NestableCollection extends Collection
      *
      * @return mixed NestableCollection
      */
-    public function nest()
+    public function nest($parent_column = 'parent_id')
     {
-        $parentColumn = $this->parentColumn;
-        if (!$parentColumn) {
-            return $this;
-        }
-
         // Set id as keys.
         $this->items = $this->getDictionary();
 
@@ -95,9 +89,9 @@ class NestableCollection extends Collection
         $indentChars = $indentChars ?: $this->indentChars;
         foreach ($collection as $item) {
             if ($parent_string) {
-                $item_string = ($parent_string === true) ? $item->$column : $parent_string.$indentChars.$item->$column;
+                $item_string = ($parent_string === true) ? $item->$column : $parent_string . $indentChars . $item->$column;
             } else {
-                $item_string = str_repeat($indentChars, $level).$item->$column;
+                $item_string = str_repeat($indentChars, $level) . $item->$column;
             }
 
             $flattened[$item->id] = $item_string;

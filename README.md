@@ -26,10 +26,10 @@ use TypiCMS\NestableTrait;
 
 Now each time you get a collection of that model, it will be an instance of **TypiCMS\NestableCollection** in place of **Illuminate\Database\Eloquent\Collection**.
 
-If you want a tree of models, simply call the nest method on a collection ordered by parent_id asc :
+If you want a tree of models, simply call the nest method on a collection ordered by parent_id asc and pass the column on which you want the nesting to occurr :
 
 ```php
-Model::orderBy('parent_id')->get()->nest();
+Model::orderBy('parent_id')->get()->nest('parent_id');
 ```
 
 Of course you will probably want a position column as well. So you will have to order first by parent_id asc and then by position asc.
@@ -50,19 +50,19 @@ Of course you will probably want a position column as well. So you will have to 
 To use it, first call the `nest()` method, followed by the `listsFlattened()` method:
 
 ```php
-Model::orderBy('parent_id')->get()->nest()->listsFlattened();
+Model::orderBy('parent_id')->get()->nest('parent_id')->listsFlattened();
 ```
 
 By default it will look for a `title` column. You can send a custom column name as first parameter:
 
 ```php
-Model::orderBy('parent_id')->get()->nest()->listsFlattened('name');
+Model::orderBy('parent_id')->get()->nest('parent_id')->listsFlattened('name');
 ```
 
 Four spaces are used to indent by default, to use your own use the `setIndent()` method, followed by the `listsFlattened()` method:
 
 ```php
-Model::orderBy('parent_id')->get()->nest()->setIndent('> ')->listsFlattened();
+Model::orderBy('parent_id')->get()->nest('parent_id')->setIndent('> ')->listsFlattened();
 ```
 
 Results:
@@ -82,6 +82,6 @@ This package remove items that have missing ancestor, this doesn’t allow you t
 To avoid this, you can use the ```noCleaning()``` method:
 
 ```php
-Model::orderBy('parent_id')->get()->noCleaning()->nest();
+Model::orderBy('parent_id')->get()->noCleaning()->nest('parent_id');
 ```
 
